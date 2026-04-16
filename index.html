@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Penguin Chat</title>
+<style>
+body { margin:0; font-family:monospace; background:black; color:orange; }#login, #chat { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; }
+
+input, button { padding:10px; margin:5px; border:none; border-radius:6px; }
+
+#messages { width:90%; height:60%; overflow-y:auto; border:1px solid orange; padding:10px; }
+
+.msg { margin:5px 0; }
+
+</style>
+</head>
+<body><div id="login">
+  <h1>🐧 Вход в чат</h1>
+  <input id="pass" type="password" placeholder="Пароль">
+  <button onclick="login()">Войти</button>
+</div><div id="chat" style="display:none;">
+  <h2>💻 Penguin Chat</h2>
+  <div id="messages"></div>
+  <input id="msgInput" placeholder="Сообщение">
+  <button onclick="sendMsg()">Отправить</button>
+</div><!-- Firebase --><script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script><script>
+// ⚠️ ВСТАВЬ СВОИ ДАННЫЕ ИЗ FIREBASE
+const firebaseConfig = {
+  apiKey: "AIzaSyA-Ui5ERTuQD4P6-rWzH8UIsf-hMel-m-Y",
+  authDomain: "penguin-chat-94483.firebaseapp.com",
+  projectId: "penguin-chat-94483",};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+function login(){
+  let p = document.getElementById('pass').value;
+  if(p === 'penguin123'){
+    document.getElementById('login').style.display='none';
+    document.getElementById('chat').style.display='flex';
+    loadMessages();
+  } else {
+    alert('Неверный пароль');
+  }
+}
+
+function sendMsg(){
+  let text = document.getElementById('msgInput').value;
+  if(text){
+    db.ref('messages').push({text:text});
+    document.getElementById('msgInput').value='';
+  }
+}
+
+function loadMessages(){
+  db.ref('messages').on('child_added', snap=>{
+    let div = document.createElement('div');
+    div.className='msg';
+    div.textContent = '> ' + snap.val().text;
+    document.getElementById('messages').appendChild(div);
+  });
+}
+</script></body>
+</html>
