@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Пингвин-портал</title>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}/* Экран входа */ #loginScreen { height: 100vh; background: linear-gradient(135deg, #4facfe, #00f2fe); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; }
+
+.penguins { font-size: 60px; animation: bounce 2s infinite; }
+
+@keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+input { padding: 10px; font-size: 18px; border: none; border-radius: 8px; margin-top: 20px; }
+
+button { padding: 10px 20px; margin-top: 10px; font-size: 18px; border: none; border-radius: 8px; background: white; color: black; cursor: pointer; }
+
+/* Хакерский экран */ #secretScreen { display: none; height: 100vh; background: black; color: orange; font-family: monospace; padding: 20px; }
+
+.glow { text-shadow: 0 0 5px orange, 0 0 10px orange; }
+
+</style>
+</head>
+<body><div id="loginScreen">
+    <div class="penguins">🐧🎉🐧🎉🐧</div>
+    <h1>Добро пожаловать!</h1>
+    <p>Введите пароль чтобы попасть внутрь</p>
+    <input type="password" id="password" placeholder="Пароль">
+    <button onclick="checkPassword()">Войти</button>
+</div><div id="secretScreen">
+    <h1 class="glow">ДОСТУП РАЗРЕШЁН</h1>
+    <p>> Подключение к системе...</p>
+    <p>> Доступ получен</p>
+    <p>> Добро пожаловать, пользователь</p>
+</div><script>
+function checkPassword() {
+    const pass = document.getElementById('password').value;
+    if(pass === 'penguin123') {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('secretScreen').style.display = 'block';
+    } else {
+        alert('Неверный пароль');
+    }
+}
+</script></body>
+</html>
